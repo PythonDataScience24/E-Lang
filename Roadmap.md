@@ -46,10 +46,10 @@ This roadmap serves as a living document and will evolve based on project needs 
 
 We welcome all contributors and look forward to making language learning more accessible and efficient through our collaborative efforts. Let's build something great together!
 
-Timeline
+-**Timeline
 The project work is split into milestones, which cover the last 6 weeks of the Data Science Course (Uni Berne).
-Choose a project + Project management by April 25th 2024
-First deliverable + GitHub by May 2nd 2024
-Second deliverable + Classes + Refactoring by May 16th 2024
-Third deliverable + Unit tests + Issues by May 23rd 2024
-Virtual environment + In-person Presentation by May 30th 2024
+- Choose a project + Project management by April 25th 2024
+- First deliverable + GitHub by May 2nd 2024
+- Second deliverable + Classes + Refactoring by May 16th 2024
+- Third deliverable + Unit tests + Issues by May 23rd 2024
+- Virtual environment + In-person Presentation by May 30th 2024
