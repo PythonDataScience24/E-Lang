@@ -4,10 +4,10 @@
 Thank you for your interest in our project! We're developing a Language Learning Assistant that will help users to easily input, store, and review vocabulary words along with their translations. Our platform will include features like quizzes to reinforce learning and visualizations to track progress.
 
 ## Team Members
-- Aissata
-- Ilyas
-- Kelvin
-- Ondrej
+- Aissata Kane  
+- Ilyas Woo
+- Newton Ollengo
+- Ondrej Baco
 
 We are Computer Science students, Biomedical Engineering Students at the University of Berne, and this project is a critical component of our Data Science course.
 
