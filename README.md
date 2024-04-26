@@ -17,14 +17,14 @@ The GitHub repository for this project can be found here: [GitHub Link ](https:/
 ## How to Contribute & Get Involved
 Interested in contributing? Here's how you can get involved:
 - [Project Protocol](https://github.com/Newton001/Language-Learning-Assistant.git) - Follow our protocol to understand our workflow and standards.
-- [Project Roadmap](https://github.com/Newton001/Language-Learning-Assistant.git) - Check out our roadmap to see what we're working on and what's coming next.
+- [Project Roadmap](https://github.com/PythonDataScience24/Language-Learning-Assistant/blob/main/Roadmap.md) - Check out our roadmap to see what we're working on and what's coming next.
 
 Your contributions and feedback are invaluable to the success of this project. We look forward to working together to make language learning a more engaging and streamlined experience.
 
 ## Feedback and Suggestions
 Please feel free to raise an issue on our GitHub repository for any suggestions or feedback. If you'd like to propose a feature or report a bug, we'd love to hear from you!
 
-## License
+## Getting Started
 [License Information]
 
 We are excited to embark on this journey to make language learning more accessible, and we invite you to join us in this endeavor!
