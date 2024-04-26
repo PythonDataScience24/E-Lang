@@ -1,7 +1,7 @@
 # Welcome to the Language Learning Assistant Project!
 
 ## Introduction
-Thank you for your interest in our project! We're developing a Language Learning Assistant that will help users to easily input, store, and review vocabulary words along with their translations. Our platform will include features like quizzes to reinforce learning and visualizations to track progress.
+Thank you for your interest in our project! We're developing a Language Learning Assistant that will help users to easily input, store, and review vocabulary words along with their translations. Our platform will include features like quizzes to reinforce learning and visualizations to track progress. This project is part of the evaluation for the Advanced Pzthon Course at the University of Berne.
 
 ## Team Members
 - Aissata Kane  
@@ -25,6 +25,6 @@ Your contributions and feedback are invaluable to the success of this project. W
 Please feel free to raise an issue on our GitHub repository for any suggestions or feedback. If you'd like to propose a feature or report a bug, we'd love to hear from you!
 
 ## Getting Started
-[License Information]
+Updates on how to get started will be updated in due course.!
 
 We are excited to embark on this journey to make language learning more accessible, and we invite you to join us in this endeavor!
