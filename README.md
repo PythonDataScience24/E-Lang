@@ -46,4 +46,7 @@ cd WEB
 python main.py
 
 ```
+### Viewing the App
+Go To ```http://127.0.0.1:5000``` on your browser 
+
 We are excited to embark on this journey to make language learning more accessible, and we invite you to join us in this endeavor!
