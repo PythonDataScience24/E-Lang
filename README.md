@@ -24,7 +24,26 @@ Your contributions and feedback are invaluable to the success of this project. W
 ## Feedback and Suggestions
 Please feel free to raise an issue on our GitHub repository for any suggestions or feedback. If you'd like to propose a feature or report a bug, we'd love to hear from you!
 
-## Getting Started
-Updates on how to get started will be updated in due course.!
+# Getting Started
+## Flask UI App Running
+### Set Up & Installation
 
+Ensure you have Python 3.10 installed on your system. You can verify your Python version by running:
+
+```bash
+python --version
+
+git clone https://github.com/PythonDataScience24/Language-Learning-Assistant.git
+
+cd Language-Learning-Assistant
+
+pip install -r requirements.txt
+
+cd WEB
+```
+### Run the App
+```bash
+python main.py
+
+```
 We are excited to embark on this journey to make language learning more accessible, and we invite you to join us in this endeavor!
