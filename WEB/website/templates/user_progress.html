@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1 align="center">Notes</h1>
+<ul class="list-group list-group-flush" id="notes">
+  {% for note in user.notes %}
+  <li class="list-group-item">
+    {{ note.data }}
+    <button type="button" class="close" onClick="deleteNote({{ note.id }})">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </li>
+  {% endfor %}
+</ul>
+<form method="POST">
+  <textarea name="note" id="note" class="form-control"></textarea>
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Add Note</button>
+  </div>
+</form>
+
+<!-- Section for Charts -->
+<div class="row">
+  <div class="col-md-6">
+    <h2 class="text-center">Dummy Pie Chart</h2>
+    <canvas id="myPieChart"></canvas>
+  </div>
+  <div class="col-md-6">
+    <h2 class="text-center">Dummy Bar Chart</h2>
+    <canvas id="myBarChart"></canvas>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var ctxPie = document.getElementById('myPieChart').getContext('2d');
+  var myPieChart = new Chart(ctxPie, {
+    type: 'pie',
+    data: {
+      labels: ['Red', 'Blue', 'Yellow'],
+      datasets: [{
+        data: [300, 50, 100],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+      }]
+    }
+  });
+
+  var ctxBar = document.getElementById('myBarChart').getContext('2d');
+  var myBarChart = new Chart(ctxBar, {
+    type: 'bar',
+    data: {
+      labels: ['January', 'February', 'March'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero:true
+          }
+        }]
+      }
+    }
+  });
+});
+</script>
+{% endblock %}
