@@ -3,6 +3,12 @@ from flask_login import login_required, current_user
 from .models import Note, Word
 from . import db
 import json
+import spacy
+
+# To perform teh Categorisation, I will use an sm categoriser
+
+#Load a German Spacy Model
+nlp_de = spacy.load('de_core_news_sm')
 
 views = Blueprint('views', __name__)
 
@@ -53,13 +59,24 @@ def delete_note():
 @views.route('/add-word', methods=['POST'])
 def add_word():
     data = request.get_json()
+    print(data)
     if data:
         try:
-            new_word = Word(word=data['word'], translation=data['translation'],sentence=data['sentence'], user_id=current_user.id)
+            word_german = data['word']
+            doc = nlp_de(word_german)
+            token = doc[0]
+            # Simple difficulty rating based on word length
+
+            difficulty = 'Hard' if len(token.text) > 7 else 'Easy'
+
+            # For the parts of speech
+            part_of_speech = token.pos_
+
+            new_word = Word(word=data['word'], translation=data['translation'],sentence=data['sentence'], difficulty=difficulty,part_of_speech=part_of_speech, user_id=current_user.id)
             # handle other fields and save to db
             db.session.add(new_word)
             db.session.commit()
-            return jsonify({'success':True, 'word': new_word.word, 'translation':new_word.translation, 'sentence':new_word.sentence})
+            return jsonify({'success':True, 'word': new_word.word, 'translation':new_word.translation, 'sentence':new_word.sentence, 'difficulty':new_word.difficulty, 'part_of_speech':new_word.part_of_speech})
         except Exception as e:
             db.session.rollback()
             return jsonify({'error': str(e)}), 400
@@ -73,5 +90,16 @@ def get_user_data():
 
     words = Word.query.filter_by(user_id=current_user.id).all()
 
-    user_data = {'words': [{'word':word.word, 'translation':word.translation, 'sentence':word.sentence} for word in words]}
+    user_data = {'words': [{'word':word.word, 'translation':word.translation, 'sentence':word.sentence,'difficulty':word.difficulty,'part_of_speech':word.part_of_speech} for word in words]}
     return jsonify(user_data)
+
+@views.route('/user_progress', methods=['GET'])
+@login_required
+def get_user_progress():
+    render_template('home2.html')
+
+
+
+
+
+

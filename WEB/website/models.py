@@ -23,4 +23,7 @@ class Word(db.Model):
     word = db.Column(db.String(120), unique=False, nullable=False)
     translation = db.Column(db.String(120))
     sentence = db.Column(db.String(1000))
+    part_of_speech = db.Column(db.String(120))
+    difficulty = db.Column(db.String(120))
+
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

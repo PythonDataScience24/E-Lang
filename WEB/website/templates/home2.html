@@ -44,6 +44,8 @@
           <th>Word</th>
           <th>Translation</th>
           <th>Sentence</th>
+          <th>Difficulty</th>
+          <th>Part of Speech</th>
         </tr>
       </thead>
       <tbody id="vocab-list">
@@ -71,6 +73,8 @@ document.addEventListener('DOMContentLoaded', function() {
         let translation = document.getElementById('translationInput').value;
         let sentence = document.getElementById('sentenceInput').value;
 
+
+
         fetch('/add-word', {
             method: 'POST',
             headers: {
@@ -80,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 word: word,
                 translation: translation,
                 sentence: sentence,
+
             })
         }).then(response => response.json())
         .then(data => {
@@ -88,7 +93,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('wordInput').value = "";
                 document.getElementById('translationInput').value = "";
                 document.getElementById('sentenceInput').value = "";
+
                 document.getElementById('wordInput').focus();
+
             } else {
                 alert('Error adding word: ' + data.error);
             }
@@ -104,7 +111,7 @@ function fetchVocabulary() {
     .then(data => {
         if (data.words) {
             data.words.forEach(word => {
-                addWordToTable(word.word, word.translation, word.sentence);
+                addWordToTable(word.word, word.translation, word.sentence, word.difficulty, word.part_of_speech);
             });
         }
     }).catch(error => {
@@ -112,15 +119,19 @@ function fetchVocabulary() {
     });
 }
 
-function addWordToTable(word, translation, sentence) {
+function addWordToTable(word, translation, sentence, difficulty, part_of_speech) {
     let vocabList = document.getElementById('vocab-list');
     let row = vocabList.insertRow();
     let cell1 = row.insertCell(0);
     let cell2 = row.insertCell(1);
     let cell3 = row.insertCell(2);
+    let cell4 = row.insertCell(3);
+    let cell5 = row.insertCell(4)
     cell1.innerHTML = word;
     cell2.innerHTML = translation;
     cell3.innerHTML = sentence;
+    cell4.innerHTML = difficulty;
+    cell5.innerHTML = part_of_speech
 }
 
 function removeWord(btn) {
