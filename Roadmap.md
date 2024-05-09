@@ -15,25 +15,30 @@ Our goal is to develop a Language Learning Assistant to aid users in practicing 
 ### Timeline
 The project is segmented into milestones aligned with the last 6 weeks of the Data Science Course at Uni Berne:
 
-- **Milestone 1: Project Initialization**
-  - Choose a project and establish project management practices by April 25th, 2024.
+- **Milestone 1: Project Initialization** by April 25th, 2024
+  - Choose a project and establish project management practices.
   - Setup initial project repository on GitHub.
 
-- **Milestone 2: Foundation Building**
-  - Develop basic input and storage functionality for vocabulary by May 2nd, 2024.
-  - Implement the first version of the category organization system.
+- **Milestone 2: Foundation Building** by May 2nd, 2024
+  - Develop basic input and storage functionality for vocabulary.
+  - Define the first version of the category organization system.
 
-- **Milestone 3: Interactivity**
-  - Create the quiz generation logic and basic user interface for practice exercises by May 16th, 2024
+- **Milestone 3: UI design** by May 9th, 2024
+  - Create design for website and brand
+  - Implement basic user interface based on design for practice exercises
   
-- **Milestone 4: Testing and Feedback Integration**
-  - Develop unit tests for each component of the application by May 23rd, 2024.
+- **Milestone 4: Interactivity** by May 16th, 2024
+  - Create the quiz generation logic
+  - Create user reports and data visualizations
+
+- **Milestone 5: Testing and Feedback Integration** by May 23rd, 2024
+  - Develop unit tests for each component of the application.
   - Address issues raised in initial user testing and feedback sessions.
   - Refine data visualization features and ensure accuracy of progress tracking.
   - Enhance user experience based on iterative testing and feedback.
   - Implement a system for tracking and visualizing long-term user progress.
 
-- **Milestone 5: Finalization and Presentation**
+- **Milestone 6: Finalization and Presentation**
   - Set up a virtual environment for the application by May 30th, 2024, to ensure consistent development and deployment environments.
   - Finalize all features and conduct comprehensive user acceptance testing.
   - Optimize performance and ensure that the application is scalable.
