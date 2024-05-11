@@ -1,5 +1,0 @@
-0,id,INTEGER,1,,1
-1,word,VARCHAR(120),1,,0
-2,translation,VARCHAR(120),0,,0
-3,sentence,VARCHAR(1000),0,,0
-4,user_id,INTEGER,0,,0

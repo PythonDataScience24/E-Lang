@@ -39,6 +39,8 @@ class LanguageModel(db.Model):
         db.session.commit()
 
 
+
+
 """
 class User:
     id : int primary key

@@ -1,8 +1,9 @@
 from flask_restx import Namespace, Resource, fields
 from models import User
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import create_access_token, create_refresh_token
-from flask import request, jsonify
+from flask_jwt_extended import (JWTManager, create_access_token, create_refresh_token,
+                                get_jwt_identity, jwt_required)
+from flask import request, jsonify, Flask, make_response
 
 # Namespace as blueprint
 
@@ -65,3 +66,17 @@ class Login(Resource):
             refresh_token = create_refresh_token(identity=db_user.username)
 
             return jsonify({"access_token": access_token, "refresh_token": refresh_token})
+
+
+@auth_ns.route('/refresh')
+class Refresh(Resource):
+    @jwt_required(refresh=True)
+    def post(self):
+        current_user = get_jwt_identity()
+        new_access_token = create_access_token(identity=current_user)
+
+        response = {
+            "access_token": new_access_token
+        }
+
+        return jsonify(response), 200

@@ -8,3 +8,4 @@
 /dataSources.local.xml
 *.ipynb_checkpoints
 .idea/*
+*.conda/*
