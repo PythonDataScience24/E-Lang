@@ -8,6 +8,7 @@ from flask_jwt_extended import JWTManager
 from auth import auth_ns
 from language_ns import language_ns
 from flask_cors import CORS
+from translations_ns import translations_ns
 
 
 def create_app(config):
@@ -25,6 +26,7 @@ def create_app(config):
 
     api.add_namespace(language_ns)
     api.add_namespace(auth_ns)
+    api.add_namespace(translations_ns)
     @app.shell_context_processor
     def make_shell_context():
         return {

@@ -1,10 +1,10 @@
 // src/components/LoginPage.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './login.css';
+import './styles/login.css';
 import { FaUserCircle } from 'react-icons/fa';
-import login_image from './login_image.jpg';
-import logoImage from './logo.png';
+import login_image from './images/login_image.jpg';
+import logoImage from './images/logo.png';
 
 function LoginPage() {
     const [username, setUsername] = useState('');

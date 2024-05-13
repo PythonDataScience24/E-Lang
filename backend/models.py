@@ -59,3 +59,41 @@ class User(db.Model):
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
+
+
+"""
+class SentencePair(db.Model)
+      id : int primary key
+      english_sentence  = db.Column(db.String(255), nullable=False)
+      german_sentence = db.Column(db.String(255), nullable=False)
+      correct_word : str = db.Column(db.String(255), nullable=False)
+      
+      def __repr__(self):
+      return f"<SentencePair{self.english_sentence}-{self.german_sentence}"
+      
+"""
+
+
+class SentencePair(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    english_sentence = db.Column(db.String(255), nullable=False)
+    german_sentence = db.Column(db.String(255), nullable=False)
+    correct_word: str = db.Column(db.String(255), nullable=False)
+
+    def __repr__(self):
+        return f"<SentencePair{self.english_sentence}-{self.german_sentence}"
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_from_db(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def update(self, german_sentence, english_sentence, correct_word):
+        self.english_sentence = english_sentence
+        self.correct_word = correct_word
+        self.german_sentence = german_sentence
+
+        db.session.commit()

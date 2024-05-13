@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './homepage.css';
-import flashcardImg from './flashcard.png';
-import practiceImg from './practice.png';
-import progressImg from './progress.png';
-import logoImg from './logo.png';
+import './styles/homepage.css';
+import flashcardImg from './images/flashcard.png';
+import practiceImg from './images/practice.png';
+import progressImg from './images/progress.png';
+import logoImg from './images/logo.png';
 
 function HomePage() {
   const navigate = useNavigate();

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { ProgressBar, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './flashcards.css';
-import logo from './logo.png';  // Replace with your logo path
-import userImage from './user.png';  // Replace with your user image path
+import './styles/flashcards.css';
+import logo from './images/logo.png';  // Replace with your logo path
+import userImage from './images/user.png';  // Replace with your user image path
 
 const FlashCards = () => {
   const [word, setWord] = useState('');

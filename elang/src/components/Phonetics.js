@@ -1,6 +1,6 @@
 // src/components/Phonetics.js
 import React, { useState } from 'react';
-import './styles.css';
+import './styles/styles.css';
 
 function Phonetics() {
     const [word, setWord] = useState('Bahnhof');

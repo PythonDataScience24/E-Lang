@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import logoImg from './logo.png'; // Make sure the path matches where you store your image files
-import './worddeck.css'; // Make sure the path matches the location of your CSS file
+import logoImg from './images/logo.png'; // Make sure the path matches where you store your image files
+import './styles/worddeck.css'; // Make sure the path matches the location of your CSS file
 
 const WordDeck = () => {
   const [word, setWord] = useState('');

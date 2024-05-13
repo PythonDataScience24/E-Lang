@@ -1,6 +1,6 @@
 // src/components/PracticePage.js
 import React from 'react';
-import './styles.css';
+import './styles/styles.css';
 
 function PracticePage({ onNavigate }) {
     return (

@@ -1,0 +1,114 @@
+/* Styles for the overall container and layout */
+.app-container {
+    font-family: Arial, sans-serif;
+    max-width: 1508px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f4f4f4;
+}
+
+.logo {
+    height: 50px; /* Adjust size as needed */
+    cursor: pointer;
+}
+
+.menu-icon {
+    height: 30px; /* Adjust size as needed */
+    cursor: pointer;
+}
+
+/* Main content styling */
+.content {
+    padding: 20px;
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+input[type="text"] {
+    width: 90%;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Button styles */
+.btn-submit, .btn-next {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 5px 0 5px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 4px;
+    outline: none;
+}
+
+.btn-next {
+    background-color: #008CBA; /* Blue */
+}
+
+.btn-submit:hover, .btn-next:hover {
+    opacity: 0.9;
+}
+
+/* Feedback message styling */
+.feedback {
+    color: #d9534f; /* Bootstrap 'danger' color for negative feedback */
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+/* Progress bar styling */
+.progress-bar {
+    width: 100%;
+    background-color: #ccc;
+    height: 24px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.progress {
+    height: 100%;
+    background-color: #4CAF50; /* Green */
+    border-radius: 8px;
+    transition: width 0.4s ease-in-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .input-group label, .btn-submit, .btn-next {
+        font-size: 16px; /* Smaller font size for mobile */
+    }
+
+    input[type="text"] {
+        width: 95%; /* Wider input fields on smaller screens */
+        font-size: 14px; /* Smaller font size for inputs */
+    }
+
+    .btn-submit, .btn-next {
+        padding: 10px 15px;
+        font-size: 16px; /* Smaller buttons on mobile */
+    }
+}

@@ -73,3 +73,4 @@ class LanguageResource(Resource):
         word_to_delete.delete_from_db()
 
         return word_to_delete, 201
+
