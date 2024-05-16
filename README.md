@@ -25,7 +25,30 @@ Your contributions and feedback are invaluable to the success of this project. W
 Please feel free to raise an issue on our GitHub repository for any suggestions or feedback. If you'd like to propose a feature or report a bug, we'd love to hear from you!
 
 # Getting Started
+
+## How to Install Node.js
+
+Node.js is required to run the frontend part of the project. Follow these steps to install Node.js on your system.
+
+### Windows
+
+1. **Download the Node.js Installer:**
+   - Go to the [Node.js download page](https://nodejs.org/).
+   - Download the Windows Installer (the `.msi` file) for the LTS (Long Term Support) version.
+
+2. **Run the Installer:**
+   - Run the downloaded installer.
+   - Follow the prompts in the installer. The default settings are fine for most users.
+   - Ensure that the option to add Node.js to your PATH is checked.
+
+3. **Verify Installation:**
+   Open a command prompt (CMD) or PowerShell and run the following commands:
+   ```bash
+   node --version
+   npm --version
+
 ## Flask Backend SetUp
+
 ### Set Up & Installation
 
 Ensure you have Python 3.10 installed on your system. You can verify your Python version by running:
