@@ -66,7 +66,7 @@ npm install
 npm start
 
 ```
-Go To ```http://127.0.0.1:5000``` on your browser to View the Frontend
+Go To ```http://127.0.0.1:3000``` on your browser to View the Frontend
 
 Currently only the user account Newton, password = Newton works, registration will be updated soon
 
