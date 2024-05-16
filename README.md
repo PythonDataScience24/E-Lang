@@ -26,6 +26,24 @@ Please feel free to raise an issue on our GitHub repository for any suggestions 
 
 # Getting Started
 
+## How to Install Node.js using nvm
+
+`nvm` is a version manager for Node.js, designed to be installed per-user, and invoked per-shell. Follow these steps to install `nvm`, and then use it to install Node.js and npm.
+
+### Install nvm
+
+#### Windows
+
+1. **Download and Install nvm-windows:**
+   - Go to the [nvm-windows release page](https://github.com/coreybutler/nvm-windows/releases).
+   - Download the `nvm-setup.zip` file and extract it.
+   - Run the `nvm-setup.exe` file and follow the prompts to install.
+
+2. **Verify Installation:**
+   Open Command Prompt or PowerShell and run:
+   ```bash
+   nvm --version (1.1.12)
+
 ## How to Install Node.js
 
 Node.js is required to run the frontend part of the project. Follow these steps to install Node.js on your system.
@@ -44,8 +62,8 @@ Node.js is required to run the frontend part of the project. Follow these steps 
 3. **Verify Installation:**
    Open a command prompt (CMD) or PowerShell and run the following commands:
    ```bash
-   node --version
-   npm --version
+   node --version == v22.1.0
+   npm --version == 10.7.0
 
 ## Flask Backend SetUp
 
