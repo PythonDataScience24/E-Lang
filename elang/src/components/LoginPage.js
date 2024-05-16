@@ -1,4 +1,3 @@
-// src/components/LoginPage.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/login.css';
@@ -44,7 +43,7 @@ function LoginPage() {
         <div className="login-container">
             <header className="header">
                 <div className="header-logo">
-                    <img src={logoImage} alt="Logo" />
+                    <img src={logoImage} alt="Logo" loading="lazy" />
                 </div>
                 <div className="header-profile">
                     <FaUserCircle size="32px" />
@@ -53,7 +52,7 @@ function LoginPage() {
             <main className="login-main">
                 <div className="welcome-container">
                     <div className="welcome-image">
-                        <img src={login_image} alt="Welcome" />
+                        <img src={login_image} alt="Welcome" loading="lazy" />
                     </div>
                     <div className="login-form">
                         <h1>Welcome back!</h1>
