@@ -25,7 +25,7 @@ Your contributions and feedback are invaluable to the success of this project. W
 Please feel free to raise an issue on our GitHub repository for any suggestions or feedback. If you'd like to propose a feature or report a bug, we'd love to hear from you!
 
 # Getting Started
-## Flask UI App Running
+## Flask Backend SetUp
 ### Set Up & Installation
 
 Ensure you have Python 3.10 installed on your system. You can verify your Python version by running:
@@ -33,9 +33,13 @@ Ensure you have Python 3.10 installed on your system. You can verify your Python
 ```bash
 python --version
 
-git clone https://github.com/PythonDataScience24/Language-Learning-Assistant.git
+git clone https://github.com/PythonDataScience24/E-lang.git
 
-cd Language-Learning-Assistant
+cd E-lang/backend
+
+python -m venv venv
+
+source venv/bin/activate
 
 pip install -r requirements.txt
 
@@ -43,10 +47,27 @@ cd WEB
 ```
 ### Run the App
 ```bash
-python main.py
+python run.py
 
 ```
 ### Viewing the App
-Go To ```http://127.0.0.1:5000``` on your browser 
+Go To ```http://127.0.0.1:5000``` on your browser to View the Backend
+
+
+# React Frontend SetUp
+
+Navigate to the FrontEnd Directory
+
+``` bash
+cd E-lang/elang
+
+npm install
+
+npm start
+
+```
+Go To ```http://127.0.0.1:5000``` on your browser to View the Frontend
+
+Currently only the user account Newton, password = Newton works, registration will be updated soon
 
 We are excited to embark on this journey to make language learning more accessible, and we invite you to join us in this endeavor!
