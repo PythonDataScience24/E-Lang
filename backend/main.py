@@ -27,6 +27,8 @@ def create_app(config):
     api.add_namespace(language_ns)
     api.add_namespace(auth_ns)
     api.add_namespace(translations_ns)
+    # Blank line below added for PEP8 compliance
+
     @app.shell_context_processor
     def make_shell_context():
         return {

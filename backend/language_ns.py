@@ -3,7 +3,9 @@ from flask_restx import Namespace, Resource, fields
 from flask_jwt_extended import jwt_required
 from flask import request
 
-language_ns = Namespace('language_ns', description='Namespace for Getting Language and words')
+# Line split for PEP8 compliance
+language_ns = Namespace('language_ns',
+                        description='Namespace for Getting Language and words')
 
 # Serialize our class (Expose model as Json)
 language_model = language_ns.model(
@@ -16,6 +18,8 @@ language_model = language_ns.model(
      }
 )
 
+
+# Blank line added for PEP8 compliance
 @language_ns.route('/hello')
 class HelloWorld(Resource):
     def get(self):
@@ -61,7 +65,9 @@ class LanguageResource(Resource):
         word_to_update = LanguageModel.query.get_or_404(id)
         data = request.get_json()
 
-        word_to_update.update(data.get('word'), data.get('translation'), data.get('sentence'), data.get('difficulty'))
+        # Line split for PEP8 compliance
+        word_to_update.update(data.get('word'), data.get('translation'),
+                              data.get('sentence'), data.get('difficulty'))
 
         return word_to_update, 201
 
@@ -73,4 +79,3 @@ class LanguageResource(Resource):
         word_to_delete.delete_from_db()
 
         return word_to_delete, 201
-

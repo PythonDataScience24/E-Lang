@@ -7,12 +7,14 @@ set_seed(42)  # For reproducibility
 text_generator = pipeline('text-generation', model='gpt2')
 translator = pipeline('translation_en_to_de', model='Helsinki-NLP/opus-mt-en-de')
 
+
 def create_gap_sentence(translation):
     words = translation.split()
     gap_index = random.randint(0, len(words) - 1)
     correct_word = words[gap_index]
     words[gap_index] = '_____'
     return ' '.join(words), correct_word
+
 
 def generate_english_sentence():
     while True:
@@ -24,6 +26,7 @@ def generate_english_sentence():
             if 3 <= len(words) <= 10:  # Ensures the sentence is not too long or too short
                 return ' '.join(words)
         # If no suitable sentence is found, it will continue generating
+
 
 def main():
     while True:
@@ -44,6 +47,7 @@ def main():
 
         if input("Try another one? (yes/no): ").lower() != 'yes':
             break
+
 
 if __name__ == "__main__":
     main()

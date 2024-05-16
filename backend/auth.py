@@ -1,7 +1,9 @@
 from flask_restx import Namespace, Resource, fields
 from models import User
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import (JWTManager, create_access_token, create_refresh_token,
+# Line split for PEP8 compliance
+from flask_jwt_extended import (JWTManager, create_access_token,
+                                create_refresh_token,
                                 get_jwt_identity, jwt_required)
 from flask import request, jsonify, Flask, make_response
 
@@ -62,10 +64,12 @@ class Login(Resource):
         # Check User and Password
         db_user = User.query.filter(User.username == username).first()
         if db_user and check_password_hash(db_user.password, password):
-            access_token = create_access_token(identity=db_user.username, fresh=True)
+            access_token = create_access_token(identity=db_user.username,
+                                               fresh=True)
             refresh_token = create_refresh_token(identity=db_user.username)
 
-            return jsonify({"access_token": access_token, "refresh_token": refresh_token})
+            return jsonify({"access_token": access_token,
+                            "refresh_token": refresh_token})
 
 
 @auth_ns.route('/refresh')

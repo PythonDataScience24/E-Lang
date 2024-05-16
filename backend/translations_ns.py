@@ -8,10 +8,12 @@ from models import SentencePair
 # Initialize pipelines and seed
 set_seed(42)
 text_generator = pipeline('text-generation', model='gpt2')
-translator = pipeline('translation_en_to_de', model='Helsinki-NLP/opus-mt-en-de')
+translator = pipeline('translation_en_to_de',
+                      model='Helsinki-NLP/opus-mt-en-de')
 
 # Define the namespace
-translations_ns = Namespace('translations_ns', description='Namespace for Getting Sentence Translations')
+translations_ns = Namespace('translations_ns',
+                            description='Namespace for Getting Sentence Translations')
 
 # Serialization schema
 translations_model = translations_ns.model(
@@ -29,6 +31,7 @@ translations_model_1 = translations_ns.model('Validation', {
     "user_input": fields.String(required=True, description="User provided word")
 })
 
+
 # Helper functions
 def generate_english_sentence():
     while True:
@@ -39,12 +42,14 @@ def generate_english_sentence():
             if 3 <= len(words) <= 10:
                 return ' '.join(words)
 
+
 def create_gap_sentence(translation):
     words = translation.split()
     gap_index = random.randint(0, len(words) - 1)
     correct_word = words[gap_index]
     words[gap_index] = '_____'
     return ' '.join(words), correct_word
+
 
 # Class-based Resource for generating sentences
 @translations_ns.route('/generate_sentence')
@@ -58,6 +63,7 @@ class SentenceGenerator(Resource):
             'german_sentence': gap_sentence,
             'correct_word': correct_word
         })
+
 
 # Class-based Resource for translations
 @translations_ns.route('/translations')
@@ -73,6 +79,7 @@ class Translations(Resource):
             'german_sentence': gap_sentence,
             'correct_word': correct_word
         }
+
 
 # Class-based Resource for answer validation
 @translations_ns.route('/validate')

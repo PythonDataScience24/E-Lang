@@ -9,8 +9,10 @@ class LanguageModel():
     sentence: str(text)
     difficulty: int
     phonetics: blob
-    
 """
+# Line above the end of the block comment contained 4 spaces - removed for
+# PEP8 compliance
+
 
 class LanguageModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -39,14 +41,13 @@ class LanguageModel(db.Model):
         db.session.commit()
 
 
-
-
 """
 class User:
     id : int primary key
     username : str
-    password : str       
+    password : str
 """
+
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -67,10 +68,8 @@ class SentencePair(db.Model)
       english_sentence  = db.Column(db.String(255), nullable=False)
       german_sentence = db.Column(db.String(255), nullable=False)
       correct_word : str = db.Column(db.String(255), nullable=False)
-      
       def __repr__(self):
       return f"<SentencePair{self.english_sentence}-{self.german_sentence}"
-      
 """
 
 
