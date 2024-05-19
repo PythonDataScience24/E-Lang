@@ -83,8 +83,6 @@ python -m venv venv
 source venv/bin/activate
 
 pip install -r requirements.txt
-
-cd WEB
 ```
 ### Run the App
 ```bash
