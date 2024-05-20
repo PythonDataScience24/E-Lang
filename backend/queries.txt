@@ -1,0 +1,46 @@
+QUERIES
+
+#Query to get the next ten entries
+"SELECT * FROM vocabulary WHERE user_id=XXX LIMIT 10; "
+
+#Query to get the 10 words with the highest diffficulty:
+"SELECT * FROM vocabulary WHERE user_id=XXX ORDER BY difficulty DESC LIMIT 10; "
+
+#Query to get the 10 words with the lowest diffficulty:
+"SELECT * FROM vocabulary WHERE user_id=XXX ORDER BY difficulty ASC LIMIT 10; "
+
+#Query to get all the entries in alphabetical order:
+"SELECT * FROM vocabulary WHERE user_id=XXX ORDER BY translation ASC; "
+
+#Query to get max ID
+"SELECT MAX(vocab_id) vocabulary WHERE user_id = XXX; "
+
+#Query to get an entry with a specific vocab_id
+SELECT (vocab_id, user_id, word, translation) FROM vocabulary WHERE vocab_id =XXX;
+
+UPDATE DATABASE
+
+#to update the difficulty of a certain word
+"UPDATE vocabulary SET difficulty = 10 WHERE vocab_id = XXX; "
+
+#to update a certain word
+"UPDATE vocabulary SET word = 'new word' WHERE vocab_id = XXX; "
+
+#to update a certain translation
+"UPDATE vocabulary SET translation = 'neues wort' WHERE vocab_id = XXX; "
+
+INSERT INTO DATABASE
+
+INSERT INTO vocabulary (vocab_id, user_id, word, translation, difficulty) VALUES (140, 100, "meaning", "Bedeutung", default=1);
+
+
+__tablename__ = 'vocabulary'
+    vocab_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    word = db.Column(db.String(100), nullable=False)
+    translation = db.Column(db.String(100), nullable=False)
+    pronunciation = db.Column(db.String(100))
+    example_usage = db.Column(db.Text)
+    category = db.Column(db.String(50))
+    difficulty = db.Column(db.Integer)
+    quiz_questions = db.relationship('QuizQuestion', backref='vocabulary', lazy=True)
