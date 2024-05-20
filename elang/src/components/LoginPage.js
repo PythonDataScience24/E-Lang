@@ -32,7 +32,7 @@ function LoginPage() {
                     setError(result.message || 'Login failed. Please try again.');
                 }
             } catch (error) {
-                setError('An error occurred. Please try again later.');
+                setError('Wrong User details. Try again');
             }
         } else {
             setError('Please enter a username and password.');
@@ -44,6 +44,9 @@ function LoginPage() {
             <header className="header">
                 <div className="header-logo">
                     <img src={logoImage} alt="Logo" loading="lazy" />
+                </div>
+                <div className="header-title">
+                    <h1>E-lang App</h1>
                 </div>
                 <div className="header-profile">
                     <FaUserCircle size="32px" />

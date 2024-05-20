@@ -2,6 +2,7 @@ from flask_restx import Resource, fields, Namespace
 from flask import jsonify, request
 from transformers import pipeline, set_seed
 import random
+from exts import db
 import re
 from models import SentencePair
 

@@ -70,6 +70,8 @@ class Login(Resource):
 
             return jsonify({"access_token": access_token,
                             "refresh_token": refresh_token})
+        else:
+            return jsonify({"message": "Invalid Username or Password"}), 401
 
 
 @auth_ns.route('/refresh')

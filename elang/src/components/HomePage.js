@@ -25,6 +25,9 @@ function HomePage() {
         <div className="header-logo-container">
           <img src={logoImg} alt="Logo" className="header-logo" />
         </div>
+        <div className="header-title">
+          <h1>E-lang App</h1>
+        </div>
         <div className="header-navigation">
           <div className="menu-icon" onClick={toggleNav}>☰</div>
           <nav className={`vertical-nav ${navVisible ? 'visible' : ''}`}>
