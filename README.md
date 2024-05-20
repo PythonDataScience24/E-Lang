@@ -69,6 +69,12 @@ Node.js is required to run the frontend part of the project. Follow these steps 
 
 ### Set Up & Installation
 
+Install [Anaconda](https://www.anaconda.com/download/success)
+
+Test Ananconda by running the following on a cmd prompt 
+``` conda --version```
+
+
 Ensure you have Python 3.10 installed on your system. You can verify your Python version by running:
 
 ```bash
