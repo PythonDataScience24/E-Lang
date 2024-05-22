@@ -1,15 +1,15 @@
 from flask_restx import Resource, fields, Namespace
 from flask import jsonify, request
-from transformers import pipeline, set_seed
 import random
-import re
+import requests
+import copy
+import string
 from models import SentencePair
 
 # Initialize pipelines and seed
-set_seed(42)
-text_generator = pipeline('text-generation', model='gpt2')
-translator = pipeline('translation_en_to_de',
-                      model='Helsinki-NLP/opus-mt-en-de')
+target_lang: str = 'deu'
+source_lang: str = 'eng'
+request_url: str = "https://tatoeba.org/eng/api_v0/search"
 
 # Define the namespace
 translations_ns = Namespace('translations_ns',
@@ -33,14 +33,35 @@ translations_model_1 = translations_ns.model('Validation', {
 
 
 # Helper functions
-def generate_english_sentence():
-    while True:
-        generated_text = text_generator("This is", max_length=20, num_return_sequences=1)[0]['generated_text'].strip()
-        sentences = re.split(r'[.?!]', generated_text)
-        for sentence in sentences:
-            words = sentence.strip().split()
-            if 3 <= len(words) <= 10:
-                return ' '.join(words)
+def remove_punctuation(word: str) -> str:
+    for punc_char in string.punctuation:
+        word = word.replace(punc_char, '')
+    return word
+
+
+def generate_sentences():
+    url: str = copy.copy(request_url)
+    url += "?from="+target_lang
+    url += "&to="+source_lang
+    url += "&sort=random"
+    seed: int = random.randint(0, 30000)
+    url += "&rand_seed="+str(seed)  # so we get different sentences every time
+    url += "&orphan=no"
+    url += "&unapproved=no"  # site says those are "likely to be incorrect"
+    url += "&word_count_max=15"
+    url += "&word_count_min=3"
+    req = requests.get(url)
+    req_parsed = req.json()
+    first_sentence = req_parsed['results'][0]
+    target_text = first_sentence['text']
+    translation_categories = first_sentence['translations']
+    # print(first_sentence)
+    for category in translation_categories:
+        if len(category) != 0:
+            for translation in category:
+                if len(translation) != 0:
+                    source_text = translation['text']
+    return target_text, source_text
 
 
 def create_gap_sentence(translation):
@@ -55,8 +76,7 @@ def create_gap_sentence(translation):
 @translations_ns.route('/generate_sentence')
 class SentenceGenerator(Resource):
     def get(self):
-        english_sentence = generate_english_sentence()
-        translation = translator(english_sentence)[0]['translation_text']
+        translation, english_sentence = generate_sentences()
         gap_sentence, correct_word = create_gap_sentence(translation)
         return jsonify({
             'english_sentence': english_sentence,
@@ -71,8 +91,7 @@ class Translations(Resource):
     @translations_ns.expect(translations_model)
     @translations_ns.marshal_with(translations_model)
     def get(self):
-        english_sentence = generate_english_sentence()
-        translation = translator(english_sentence)[0]['translation_text']
+        translation, english_sentence = generate_sentences()
         gap_sentence, correct_word = create_gap_sentence(translation)
         return {
             'english_sentence': english_sentence,
@@ -97,7 +116,10 @@ class AnswerValidator(Resource):
         if not user_input or not correct_word:
             return {"message": "Required data missing"}, 400
 
-        if user_input.strip().lower() == correct_word.strip().lower():
+        user_input_compare = remove_punctuation(user_input.strip().lower())
+        correct_compare = remove_punctuation(correct_word.strip().lower())
+
+        if user_input_compare == correct_compare:
             return {"message": "Correct! Well done."}, 200
         else:
             return {"message": "Incorrect! Try again."}, 400
