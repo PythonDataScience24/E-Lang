@@ -1,164 +1,164 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Updated import
-import './styles/sentence.css'; // Ensure this CSS file is updated accordingly
-import logoImg from './images/logo.png';  // Assuming logo image is stored here
-import menuIcon from './images/user.png';  // Assuming menu icon is stored here
-import backIcon from './images/back.png';  // Assuming back icon is stored here
+import { Button, Alert, ProgressBar } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import './styles/sentence.css';
+import logo from './images/logo.png';  // Replace with your logo path
+import userImage from './images/user.png';  // Replace with your user image path
 
-function SentenceCorrection() {
-    const [word, setWord] = useState('');
-    const [sentence, setSentence] = useState('');
-    const [input, setInput] = useState('');
-    const [feedback, setFeedback] = useState('');
-    const [progress, setProgress] = useState(0);
-    const [total, setTotal] = useState(5); // Total number of questions
-    const [questionData, setQuestionData] = useState(null); // Store question data
-    const navigate = useNavigate(); // Use navigate for navigation
+const SentenceCorrection = () => {
+  const [word, setWord] = useState('');
+  const [sentence, setSentence] = useState('');
+  const [input, setInput] = useState('');
+  const [feedback, setFeedback] = useState('');
+  const [progress, setProgress] = useState(0);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-    // Function to fetch data from the Flask API
-    const fetchData = async () => {
-        const token = localStorage.getItem('access_token');
-        if (!token) {
-            setFeedback('No access token found. Please log in.');
-            return;
+  const getToken = () => localStorage.getItem('access_token');
+
+  const fetchData = async () => {
+    const token = getToken();
+    if (!token) {
+      setError('No access token found. Please log in.');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/quiz_ns/generate', {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
+      });
 
-        try {
-            const response = await fetch('http://127.0.0.1:5000/quiz_ns/generate', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+      const data = response.data;
+      setSentence(data.question.replace('_____', '_____ (fill in the blank)'));
+      setWord(data.correct_word);
+      setError('');
+    } catch (error) {
+      console.error('Fetch error:', error);
+      setError('Failed to load data. Please try again later.');
+    }
+  };
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Failed to fetch data.');
-            }
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-            const data = await response.json();
-            setSentence(data.question.replace('_____', '_____ (fill in the blank)'));
-            setWord(data.correct_word);
-            setQuestionData(data); // Store the question data for later use
-        } catch (error) {
-            console.error('Fetch error:', error);
-            setFeedback('Failed to load data. Please try again later.');
+  const checkAnswer = async () => {
+    if (!input) {
+      setFeedback('Please enter a word before submitting.');
+      return;
+    }
+
+    if (!word) {
+      setFeedback('No question data available. Please try again.');
+      return;
+    }
+
+    const isCorrect = input.trim().toLowerCase() === word.trim().toLowerCase();
+    const token = getToken();
+    if (!token) {
+      setFeedback('No access token found. Please log in.');
+      return;
+    }
+
+    try {
+      const payload = {
+        responses: [
+          {
+            question_id: word,
+            user_answer: input,
+            is_correct: isCorrect
+          }
+        ]
+      };
+
+      const response = await axios.post(`http://127.0.0.1:5000/quiz_ns/submit/${word}`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-    };
+      });
 
-    // Fetch data on component mount
-    useEffect(() => {
+      if (isCorrect) {
+        setFeedback('Right Answer! Well done, keep going 😊');
+        setProgress(oldProgress => Math.min(oldProgress + 20, 100));
         fetchData();
-    }, []);
+      } else {
+        setFeedback('Wrong Answer! Review this later, practice makes perfect 😞');
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      setFeedback('Failed to submit answer. Please try again later.');
+    }
 
-    // Function to check the user's answer
-    const checkAnswer = async () => {
-        if (!input) {
-            setFeedback('Please enter a word before submitting.');
-            return;
-        }
+    setInput('');
+  };
 
-        if (!questionData) {
-            setFeedback('No question data available. Please try again.');
-            return;
-        }
+  const handleNext = () => {
+    fetchData();
+    setFeedback('');
+    setInput('');
+  };
 
-        const isCorrect = input.trim().toLowerCase() === questionData.correct_word.trim().toLowerCase();
-        const token = localStorage.getItem('access_token');
-        if (!token) {
-            setFeedback('No access token found. Please log in.');
-            return;
-        }
+  const handleMenuClick = () => {
+    setShowDropdown(!showDropdown);
+  };
 
-        try {
-            const payload = {
-                responses: [
-                    {
-                        question_id: questionData.question_id,
-                        user_answer: input,
-                        is_correct: isCorrect
-                    }
-                ]
-            };
+  const handleGoHome = () => {
+    navigate('/home');
+  };
 
-            console.log('Submitting payload:', payload); // Log payload for debugging
+  useEffect(() => {
+    if (progress === 100) {
+      setTimeout(() => {
+        navigate('/home');
+      }, 5000);
+    }
+  }, [progress, navigate]);
 
-            const response = await fetch(`http://127.0.0.1:5000/quiz_ns/submit/${questionData.quiz_id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Response error:', errorData);
-                throw new Error(errorData.message || 'Failed to submit answer.');
-            }
-
-            const result = await response.json();
-            console.log('Submission result:', result); // Log result for debugging
-
-            if (isCorrect) {
-                setFeedback('Right Answer! Well done, keep going 😊');
-                setProgress(progress + 100 / total); // Increase progress
-                fetchData(); // Fetch new sentence and word
-            } else {
-                setFeedback('Wrong Answer! Review this later, practice makes perfect 😞');
-            }
-        } catch (error) {
-            console.error('Submission error:', error);
-            setFeedback('Failed to submit answer. Please try again later.');
-        }
-
-        setInput(''); // Reset input field
-    };
-
-    const handleNext = () => {
-        fetchData(); // Fetch new data
-        setFeedback(''); // Reset feedback
-        setInput(''); // Reset input field
-    };
-
-    const handleBack = () => {
-        navigate(-1); // Navigate to the previous page
-    };
-
-    return (
-        <div className="app-container">
-            <div className="app-content">
-                <header className="app-header">
-                    <div className="header-left">
-                        <img src={logoImg} alt="App Logo" className="logo" />
-                        <h1 className="app-title">E'lang</h1>
-                    </div>
-                    <div className="header-right">
-                        <img src={backIcon} alt="Back Icon" className="back-icon" onClick={handleBack} />
-                        <img src={menuIcon} alt="Menu Icon" className="menu-icon" />
-                    </div>
-                </header>
-                <div className="content">
-                    <h1>Sentence Correction</h1>
-                    <div className="input-group">
-                        <label>Word:</label>
-                        <input type="text" value={input} onChange={(e) => setInput(e.target.value)} />
-                    </div>
-                    <div className="input-group">
-                        <label>Sentence:</label>
-                        <p>{sentence}</p>
-                    </div>
-                    {feedback && <p className="feedback">{feedback}</p>}
-                    <button onClick={checkAnswer} className="btn-submit">Submit</button>
-                    <button onClick={handleNext} className="btn-next">Next</button>
-                    <div className="progress-bar">
-                        <div className="progress" style={{ width: `${progress}%` }}></div>
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className="container main-container">
+      <nav className="navbar">
+        <img src={logo} alt="Logo" className="navbar-logo" />
+        <div className="navbar-menu-right">
+          <div className="navbar-language-switch">Switch to English to German</div>
+          <img src={userImage} alt="User" className="navbar-user-image" />
+          <div className="navbar-menu-icon" onClick={handleMenuClick}>☰</div>
         </div>
-    );
-}
+        {showDropdown && (
+          <div className="navbar-dropdown">
+            <Button variant="light" onClick={handleGoHome}>Home</Button>
+          </div>
+        )}
+      </nav>
+      <main>
+        <h1 className="title">Sentence Correction</h1>
+        {error && <Alert variant="danger">{error}</Alert>}
+        {feedback && <Alert variant={feedback.includes('Right') ? 'success' : 'danger'}>{feedback}</Alert>}
+        <div className="sentence-correction-content">
+          <div className="word-input">
+            <label>Word:</label>
+            <input type="text" value={input} onChange={(e) => setInput(e.target.value)} />
+          </div>
+          <div className="sentence-input">
+            <label>Sentence:</label>
+            <p>{sentence}</p>
+          </div>
+          <div className="button-group">
+            <Button variant="success" className="submit-button" onClick={checkAnswer}>
+              Submit
+            </Button>
+            <Button variant="light" className="next-button" onClick={handleNext}>
+              Next
+            </Button>
+          </div>
+        </div>
+        <ProgressBar now={progress} variant="info" className="progress-bar" />
+      </main>
+    </div>
+  );
+};
 
 export default SentenceCorrection;

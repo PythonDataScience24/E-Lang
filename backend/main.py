@@ -9,6 +9,7 @@ from auth import auth_ns
 from sentence_ns import language_ns, vocabulary_ns, quiz_ns
 from flask_cors import CORS
 from translations_ns import translations_ns
+from dash_app import create_dash_app
 
 
 def create_app():
@@ -31,6 +32,9 @@ def create_app():
     api.add_namespace(vocabulary_ns)
     api.add_namespace(quiz_ns)
     # Blank line below added for PEP8 compliance
+
+    #Create Dash App
+    dash_app = create_dash_app(app)
 
     @app.shell_context_processor
     def make_shell_context():

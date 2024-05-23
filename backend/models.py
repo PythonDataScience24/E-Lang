@@ -1,6 +1,5 @@
 from exts import db
 
-
 class LanguageModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     word = db.Column(db.String(500), nullable=False)
@@ -80,6 +79,7 @@ class Vocabulary(db.Model):
     category = db.Column(db.String(50))
     difficulty = db.Column(db.Integer)
     quiz_questions = db.relationship('QuizQuestion', backref='vocabulary', lazy=True)
+    progress_entries = db.relationship('Progress', backref='vocabulary', lazy=True)
 
 
 class Quiz(db.Model):
@@ -116,3 +116,6 @@ class Progress(db.Model):
     vocab_id = db.Column(db.Integer, db.ForeignKey('vocabulary.vocab_id'), nullable=False)
     date_practiced = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     score = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return f"<Progress user_id={self.user_id} vocab_id={self.vocab_id}>"

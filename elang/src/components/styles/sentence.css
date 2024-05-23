@@ -1,147 +1,117 @@
-/* Styles for the overall container and layout */
-.app-container {
-    font-family: Arial, sans-serif;
-    max-width: 1200px;
-    margin: 20px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-    background: white;
+.container.main-container {
+  width: 90%;
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 40px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
 }
 
-.app-content {
-    padding: 20px;
+.container.main-container:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.app-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #f4f4f4;
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
 }
 
-.header-left {
-    display: flex;
-    align-items: center;
+.navbar-logo, .navbar-user-image {
+  height: 50px;
+  border-radius: 50%;
 }
 
-.header-right {
-    display: flex;
-    align-items: center;
+.navbar-menu-right {
+  display: flex;
+  align-items: center;
 }
 
-.logo {
-    height: 40px; /* Adjust size as needed */
-    cursor: pointer;
-    margin-right: 10px;
+.navbar-language-switch, .navbar-menu-icon {
+  margin-left: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #495057;
+  font-weight: 500;
 }
 
-.app-title {
-    font-size: 24px;
-    font-weight: bold;
+.flash-card-content,
+.sentence-correction-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
-.menu-icon, .back-icon {
-    height: 30px; /* Adjust size as needed */
-    cursor: pointer;
+.word-input, .sentence-input {
+  width: 100%;
 }
 
-.back-icon {
-    height: 24px; /* Reduced size */
-    margin-right: 10px; /* Adjust spacing as needed */
-}
-
-/* Main content styling */
-.content {
-    padding: 20px;
-    text-align: center;
-}
-
-.input-group {
-    margin-bottom: 20px;
-}
-
-.input-group label {
-    display: block;
-    font-size: 20px;
-    color: #333;
-    margin-bottom: 5px;
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #495057;
+  font-weight: 600;
 }
 
 input[type="text"] {
-    width: 90%;
-    padding: 10px;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #ced4da;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.2s ease-in-out;
 }
 
-/* Button styles */
-.btn-submit, .btn-next {
-    background-color: #4CAF50; /* Green */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 10px 5px 0 5px;
-    font-size: 18px;
-    cursor: pointer;
-    border-radius: 4px;
-    outline: none;
+input[type="text"]:focus {
+  border-color: #80bdff;
+  outline: none;
 }
 
-.btn-next {
-    background-color: #008CBA; /* Blue */
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  transition: background-color 0.3s;
 }
 
-.btn-submit:hover, .btn-next:hover {
-    opacity: 0.9;
+button:hover {
+  opacity: 0.9;
 }
 
-/* Feedback message styling */
-.feedback {
-    color: #d9534f; /* Bootstrap 'danger' color for negative feedback */
-    margin-top: 20px;
-    font-size: 18px;
-}
-
-/* Progress bar styling */
 .progress-bar {
-    width: 100%;
-    background-color: #ccc;
-    height: 24px;
-    border-radius: 8px;
-    margin-top: 20px;
+  width: 100%;
+  margin-top: 20px;
+  height: 20px;
+  background-color: #e9ecef;
 }
 
-.progress {
-    height: 100%;
-    background-color: #4CAF50; /* Green */
-    border-radius: 8px;
-    transition: width 0.4s ease-in-out;
+.ProgressBar .progress-bar {
+  background-color: #007bff;
 }
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
-    .input-group label, .btn-submit, .btn-next {
-        font-size: 16px; /* Smaller font size for mobile */
-    }
+  label, button {
+    font-size: 16px;
+  }
 
-    input[type="text"] {
-        width: 95%; /* Wider input fields on smaller screens */
-        font-size: 14px; /* Smaller font size for inputs */
-    }
+  input[type="text"] {
+    font-size: 14px;
+  }
 
-    .btn-submit, .btn-next {
-        padding: 10px 15px;
-        font-size: 16px; /* Smaller buttons on mobile */
-    }
+  button {
+    padding: 10px 15px;
+  }
 
-    .app-title {
-        font-size: 20px; /* Smaller title on mobile */
-    }
+  .navbar-logo, .navbar-user-image {
+    height: 40px;
+  }
 
-    .menu-icon, .back-icon {
-        height: 25px; /* Smaller icons on mobile */
-    }
+  .navbar-language-switch, .navbar-menu-icon {
+    font-size: 14px;
+  }
 }

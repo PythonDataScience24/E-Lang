@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+// src/components/ProgressReports.js
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/progressreport.css';
 import logoImg from './images/logo.png'; // Adjust path as necessary
+import userImg from './images/user.png'; // Adjust path as necessary
 
 function ProgressReports() {
-    const [progressData, setProgressData] = useState(null);
-    const [error, setError] = useState('');
     const [navVisible, setNavVisible] = useState(false);
     const navigate = useNavigate();
 
@@ -18,32 +17,6 @@ function ProgressReports() {
     const toggleNav = () => {
         setNavVisible(!navVisible);
     };
-
-    useEffect(() => {
-        document.title = "E-Lang Learning Assistant";
-
-        const fetchProgressData = async () => {
-            const token = localStorage.getItem('access_token');
-            try {
-                const response = await axios.get('http://127.0.0.1:5000/language_ns/progress_visualization/user_id', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    },
-                    responseType: 'blob'
-                });
-                const imageUrl = URL.createObjectURL(response.data);
-                setProgressData(imageUrl);
-            } catch (error) {
-                setError('Failed to fetch progress data');
-            }
-        };
-
-        fetchProgressData();
-    }, []);
-
-    if (error) {
-        return <p>{error}</p>;
-    }
 
     return (
         <div className="app-container">
@@ -68,15 +41,18 @@ function ProgressReports() {
                         </ul>
                     </nav>
                 </div>
+                <div className="header-user-container">
+                    <img src={userImg} alt="User" className="header-user" />
+                </div>
             </header>
             <div className="progress-reports-container">
                 <h2>Your Progression Toward Your Goal</h2>
                 <div className="progress-chart">
-                    {progressData ? (
-                        <img src={progressData} alt="Progression Toward Goal" style={{ width: '100%' }} />
-                    ) : (
-                        <p>Loading progress data...</p>
-                    )}
+                    <iframe
+                        src="http://127.0.0.1:5000/dash/"
+                        style={{ width: '100%', height: '600px', border: 'none' }}
+                        title="Progress Chart"
+                    />
                 </div>
                 <p>
                     You have reached 45% of your goal to learn German at A2 level. You have learned around X of the X number of words required for that level.
