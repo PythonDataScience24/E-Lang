@@ -1,4 +1,3 @@
-// src/components/ProgressReports.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/progressreport.css';
@@ -46,11 +45,11 @@ function ProgressReports() {
                 </div>
             </header>
             <div className="progress-reports-container">
-                <h2>Your Progression Toward Your Goal</h2>
+                <h2>Your Practice Performance</h2>
                 <div className="progress-chart">
                     <iframe
                         src="http://127.0.0.1:5000/dash/"
-                        style={{ width: '100%', height: '600px', border: 'none' }}
+                        style={{ width: '100%', height: '800px', border: 'none' }}
                         title="Progress Chart"
                     />
                 </div>
