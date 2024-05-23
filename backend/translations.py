@@ -23,7 +23,7 @@ def generate_english_sentence():
         sentences = re.split(r'[.?!]', generated_text)  # Split by sentence terminators
         for sentence in sentences:
             words = sentence.strip().split()
-            if 3 <= len(words) <= 10:  # Ensures the sentence is not too long or too short
+            if 2 <= len(words) <= 10:  # Ensures the sentence is not too long or too short
                 return ' '.join(words)
         # If no suitable sentence is found, it will continue generating
 

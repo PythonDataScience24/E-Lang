@@ -96,6 +96,7 @@ class QuizQuestion(db.Model):
     quiz_id = db.Column(db.Integer, db.ForeignKey('quizzes.quiz_id'), nullable=False)
     vocab_id = db.Column(db.Integer, db.ForeignKey('vocabulary.vocab_id'), nullable=False)
     question_type = db.Column(db.String(50), nullable=False)
+    question = db.Column(db.Text)
     responses = db.relationship('UserResponse', backref='quiz_question', lazy=True)
 
 

@@ -64,9 +64,9 @@ class Login(Resource):
         # Check User and Password
         db_user = User.query.filter(User.username == username).first()
         if db_user and check_password_hash(db_user.password, password):
-            access_token = create_access_token(identity=db_user.username,
+            access_token = create_access_token(identity=db_user.id,
                                                fresh=True)
-            refresh_token = create_refresh_token(identity=db_user.username)
+            refresh_token = create_refresh_token(identity=db_user.id)
 
             return jsonify({"access_token": access_token,
                             "refresh_token": refresh_token})

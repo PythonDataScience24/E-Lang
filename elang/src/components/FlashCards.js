@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ProgressBar, Button, Alert } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { ProgressBar, Button, Alert, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './styles/flashcards.css';
@@ -9,45 +9,66 @@ import userImage from './images/user.png';  // Replace with your user image path
 const FlashCards = () => {
   const [word, setWord] = useState('');
   const [translation, setTranslation] = useState('');
-  const [sentence, setSentence] = useState('');
-  const [difficulty, setDifficulty] = useState(1);
+  const [pronunciation, setPronunciation] = useState('');
+  const [exampleUsage, setExampleUsage] = useState('');
   const [progress, setProgress] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [error, setError] = useState(''); // To display error messages
+  const [error, setError] = useState('');
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
+  const getToken = () => localStorage.getItem('access_token');
+
   const handleSubmit = async () => {
-  if (!translation || !sentence || difficulty === 0) {
-    alert('Please fill all fields before submitting.');
-    return;
-  }
-  try {
-    const payload = {
-      word: word,
-      translation: translation,
-      sentence: sentence,
-      difficulty: parseInt(difficulty, 10) // Ensure difficulty is sent as an integer
-    };
-    const response = await axios.post('http://127.0.0.1:5000/language_ns/languagemodel', payload);
-    console.log('Response:', response.data);
-    setProgress(oldProgress => Math.min(oldProgress + 20, 100));
-    setWord("")
-    setTranslation('');
-    setSentence('');
-    setDifficulty(1); // Reset difficulty to 1 as default
-    setError(''); // Clear any previous errors
-  } catch (error) {
-    console.error('Error posting word:', error);
-    setError('Failed to submit. Please try again.'); // Set error message for the user
-  }
-};
+    if (!word || !translation || !pronunciation || !exampleUsage) {
+      alert('Please fill all fields before submitting.');
+      return;
+    }
+    try {
+      const payload = {
+        word: word,
+        translation: translation,
+        pronunciation: pronunciation,
+        example_usage: exampleUsage
+      };
+      const token = getToken();
+      console.log('Submitting payload:', payload);
+      console.log('Authorization token:', token);
+      const response = await axios.post('http://127.0.0.1:5000/vocabulary_ns/vocabulary', payload, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log('Response:', response.data);
+      setProgress(oldProgress => Math.min(oldProgress + 20, 100));
+      setWord('');
+      setTranslation('');
+      setPronunciation('');
+      setExampleUsage('');
+      setError('');
+    } catch (error) {
+      console.error('Error posting word:', error);
+
+      if (error.response) {
+        if (error.response.data && error.response.data.message) {
+          setError(`Failed to submit. Error: ${error.response.data.message}`);
+        } else {
+          setError(`Failed to submit. Status code: ${error.response.status}`);
+        }
+      } else if (error.request) {
+        setError('No response received from the server.');
+      } else {
+        setError(`Failed to submit. Error: ${error.message}`);
+      }
+    }
+  };
 
   const handleNext = () => {
     setProgress(oldProgress => Math.min(oldProgress + 5, 100));
     setWord('Bahnhof');
     setTranslation('');
-    setSentence('');
-    setDifficulty(1);
+    setPronunciation('');
+    setExampleUsage('');
   };
 
   const handleMenuClick = () => {
@@ -57,6 +78,15 @@ const FlashCards = () => {
   const handleGoHome = () => {
     navigate('/home');
   };
+
+  useEffect(() => {
+    if (progress === 100) {
+      setShowModal(true);
+      setTimeout(() => {
+        navigate('/home');
+      }, 5000);  // Redirect to home after 3 seconds
+    }
+  }, [progress, navigate]);
 
   return (
     <div className="container main-container">
@@ -75,7 +105,7 @@ const FlashCards = () => {
       </nav>
       <main>
         <h1 className="title">Flash Cards</h1>
-        {error && <Alert variant="danger">{error}</Alert>}  {/* Display error alert if there is an error */}
+        {error && <Alert variant="danger">{error}</Alert>}
         <div className="flash-card-content">
           <div className="word-input">
             <label>Word:</label>
@@ -85,13 +115,13 @@ const FlashCards = () => {
             <label>Your Translation:</label>
             <input type="text" value={translation} onChange={(e) => setTranslation(e.target.value)} />
           </div>
-          <div className="sentence-input">
-            <label>Sentence:</label>
-            <input type="text" value={sentence} onChange={(e) => setSentence(e.target.value)} />
+          <div className="pronunciation-input">
+            <label>Pronunciation:</label>
+            <input type="text" value={pronunciation} onChange={(e) => setPronunciation(e.target.value)} />
           </div>
-          <div className="difficulty-input">
-            <label>Difficulty (1-5):</label>
-            <input type="number" value={difficulty} onChange={(e) => setDifficulty(e.target.value)} min="1" max="5" />
+          <div className="example-usage-input">
+            <label>Example Usage:</label>
+            <input type="text" value={exampleUsage} onChange={(e) => setExampleUsage(e.target.value)} />
           </div>
           <div className="button-group">
             <Button variant="success" className="submit-button" onClick={handleSubmit}>
@@ -104,6 +134,14 @@ const FlashCards = () => {
         </div>
         <ProgressBar now={progress} variant="info" className="progress-bar" />
       </main>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Congratulations!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          You have finished the words for today.
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

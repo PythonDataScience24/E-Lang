@@ -4,7 +4,53 @@ from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 from models import db, LanguageModel, Vocabulary, Progress
 import pandas as pd
 import matplotlib.pyplot as plt
-import io
+import io, os
+import spacy
+from transformers import pipeline, set_seed
+
+# Initialize pipelines and set seed
+set_seed(100)
+translator = pipeline('translation_en_to_de', model='Helsinki-NLP/opus-mt-en-de')
+
+# For speech tagging
+nlp = spacy.load('de_core_news_sm')
+
+# Load the Deutsch word frequency data
+current_dir = os.path.dirname(__file__)
+deutsch_df = pd.read_excel(os.path.join(current_dir, 'Deutschwords', 'Deutsch.xlsx'))
+
+# Create dictionary to speed lookup of words based on frequency
+word_freq_de = pd.Series(deutsch_df.WFfreqcount.values, index=deutsch_df.Word).to_dict()
+
+# Rating word based on difficulty
+def rate_difficulty(word):
+    if word in word_freq_de:
+        freq = word_freq_de.get(word.lower(), 0)
+        if freq > 10000:
+            return 1  # Easy word
+        elif freq > 5000:
+            return 2  # Medium Hard
+        elif freq > 1000:
+            return 3  # Medium Hard
+        elif freq > 500:
+            return 4  # Medium Hard
+        else:
+            return 5  # Hard
+    else:
+        return 5  # New word
+
+# Categorize user word
+def categorize_word(word):
+    doc = nlp(word)
+    if doc:
+        return doc[0].pos_
+    else:
+        return "UNKNOWN"
+
+# Validate User word
+def validate_translation(word, translation):
+    # Should check word vs models translation
+    return True  # Assumes all translations are true
 
 language_ns = Namespace('language_ns', description='Namespace for Getting Language and words')
 vocabulary_ns = Namespace('vocabulary_ns', description='Namespace for Managing Vocabulary')
@@ -35,12 +81,10 @@ vocabulary_model = vocabulary_ns.model(
     }
 )
 
-
 @language_ns.route('/hello')
 class HelloWorld(Resource):
     def get(self):
-        return {'message': 'Hello World!'}
-
+        return jsonify({'message': 'Hello World!'})
 
 @language_ns.route('/languagemodel')
 class LanguagesResource(Resource):
@@ -64,7 +108,6 @@ class LanguagesResource(Resource):
         new_words.save_to_db()
         return new_words, 201
 
-
 @language_ns.route('/languagemodel/<int:id>')
 class LanguageResource(Resource):
     @language_ns.marshal_with(language_model)
@@ -74,7 +117,6 @@ class LanguageResource(Resource):
         return one_word
 
     @language_ns.marshal_with(language_model)
-    @jwt_required()
     def put(self, id):
         """Update a word selection"""
         word_to_update = LanguageModel.query.get_or_404(id)
@@ -84,13 +126,11 @@ class LanguageResource(Resource):
         return word_to_update, 200
 
     @language_ns.marshal_with(language_model)
-    @jwt_required()
     def delete(self, id):
         """Delete a word selection"""
         word_to_delete = LanguageModel.query.get_or_404(id)
         word_to_delete.delete_from_db()
         return '', 204
-
 
 @vocabulary_ns.route('/vocabulary/<int:vocab_id>')
 class VocabularyResource(Resource):
@@ -101,7 +141,6 @@ class VocabularyResource(Resource):
         return vocab
 
     @vocabulary_ns.marshal_with(vocabulary_model)
-    @jwt_required()
     def put(self, vocab_id):
         """Update a vocabulary entry"""
         data = request.json
@@ -115,7 +154,6 @@ class VocabularyResource(Resource):
         db.session.commit()
         return vocab, 200
 
-    @jwt_required()
     def delete(self, vocab_id):
         """Delete a vocabulary entry"""
         vocab = Vocabulary.query.get_or_404(vocab_id)
@@ -123,35 +161,25 @@ class VocabularyResource(Resource):
         db.session.commit()
         return '', 204
 
-
 @language_ns.route('/progress/detailed/<int:user_id>/visualization')
 class ProgressVisualizationResource(Resource):
-    @jwt_required()
     def get(self, user_id):
         progress_entries = Progress.query.filter_by(user_id=user_id).all()
+        if not progress_entries:
+            return jsonify({"message": "No progress data found for this user"}), 404
+
         data = [{
             'word': entry.vocabulary.word,
             'date_practiced': entry.date_practiced,
             'score': entry.score
         } for entry in progress_entries]
 
-        if not data:
-            return jsonify({"message": "No progress data found for this user"}), 404
-
         df = pd.DataFrame(data)
-
-        # Calculate average score per word
         avg_scores = df.groupby('word')['score'].mean().reset_index()
-
-        # Calculate practice count per word
         practice_counts = df.groupby('word')['score'].count().reset_index().rename(columns={'score': 'practice_count'})
-
-        # Merge the dataframes
         progress_df = pd.merge(avg_scores, practice_counts, on='word')
 
-        # Plot the data
         fig, ax1 = plt.subplots(figsize=(10, 6))
-
         color = 'tab:blue'
         ax1.set_xlabel('Word')
         ax1.set_ylabel('Average Score', color=color)
@@ -174,22 +202,20 @@ class ProgressVisualizationResource(Resource):
         plt.savefig(buf, format='png')
         buf.seek(0)
 
-        return send_file(buf, mimetype='image/png', attachment_filename='progress_report.png', as_attachment=True)
-
+        return send_file(buf, mimetype='image/png', as_attachment=True, download_name='progress_report.png')
 
 @language_ns.route('/progress/analysis/<int:user_id>')
 class ProgressAnalysisResource(Resource):
-    @jwt_required()
     def get(self, user_id):
         progress_entries = Progress.query.filter_by(user_id=user_id).all()
+        if not progress_entries:
+            return jsonify({"message": "No progress data found for this user"}), 404
+
         data = [{
             'word': entry.vocabulary.word,
-            'date_practiced': entry.date_practiced,
+            'date_practiced': entry.date_practiced.strftime('%Y-%m-%d %H:%M:%S'),
             'score': entry.score
         } for entry in progress_entries]
-
-        if not data:
-            return jsonify({"message": "No progress data found for this user"}), 404
 
         df = pd.DataFrame(data)
 
@@ -215,32 +241,54 @@ class ProgressAnalysisResource(Resource):
 
         return jsonify(analysis_summary)
 
-
 @vocabulary_ns.route('/vocabulary')
 class VocabularyListResource(Resource):
-    @jwt_required()
     @vocabulary_ns.marshal_list_with(vocabulary_model)
+    @jwt_required()
     def get(self):
         """Get all vocabulary entries for the current user"""
         user_id = get_jwt_identity()
         vocab_list = Vocabulary.query.filter_by(user_id=user_id).all()
         return vocab_list
 
-    @jwt_required()
-    @vocabulary_ns.expect(vocabulary_model)
+    @vocabulary_ns.expect(vocabulary_model, validate=True)
     @vocabulary_ns.marshal_with(vocabulary_model)
+    @jwt_required()
     def post(self):
         """Add a new vocabulary entry"""
         user_id = get_jwt_identity()
         data = request.json
+
+        print("Received payload:", data)  # Log the received payload
+
+        word = data.get('word')
+        translation = data.get('translation')
+        pronunciation = data.get('pronunciation')
+        example_usage = data.get('example_usage')
+
+        if not word:
+            return jsonify({"message": "Word is required."}), 422
+        if not translation:
+            return jsonify({"message": "Translation is required."}), 422
+        if not pronunciation:
+            return jsonify({"message": "Pronunciation is required."}), 422
+        if not example_usage:
+            return jsonify({"message": "Example usage is required."}), 422
+
+        # Categorize the word
+        category = categorize_word(word)
+
+        # Rate the difficulty
+        difficulty = rate_difficulty(translation)
+
         new_vocab = Vocabulary(
             user_id=user_id,
-            word=data['word'],
-            translation=data['translation'],
-            pronunciation=data.get('pronunciation'),
-            example_usage=data.get('example_usage'),
-            category=data.get('category'),
-            difficulty=data.get('difficulty')
+            word=word,
+            translation=translation,
+            pronunciation=pronunciation,
+            example_usage=example_usage,
+            category=category,
+            difficulty=difficulty
         )
         db.session.add(new_vocab)
         db.session.commit()

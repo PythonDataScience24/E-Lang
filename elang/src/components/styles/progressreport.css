@@ -1,0 +1,49 @@
+/* Existing styles.css content... */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+}
+
+.header-logo-container img {
+    height: 50px;
+}
+
+.menu-icon {
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.vertical-nav {
+    position: absolute;
+    right: 0;
+    top: 60px; /* Adjust based on your header height */
+    background-color: #fff;
+    border-left: 1px solid #ccc;
+    width: 200px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.vertical-nav.visible {
+    transform: translateX(0);
+}
+
+.vertical-nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.vertical-nav li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.vertical-nav li:hover {
+    background-color: #f8f8f8;
+}

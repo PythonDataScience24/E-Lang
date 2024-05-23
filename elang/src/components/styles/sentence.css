@@ -1,12 +1,16 @@
 /* Styles for the overall container and layout */
 .app-container {
     font-family: Arial, sans-serif;
-    max-width: 1508px;
+    max-width: 1200px;
     margin: 20px auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
     background: white;
+}
+
+.app-content {
+    padding: 20px;
 }
 
 .app-header {
@@ -17,14 +21,35 @@
     background-color: #f4f4f4;
 }
 
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
 .logo {
-    height: 50px; /* Adjust size as needed */
+    height: 40px; /* Adjust size as needed */
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.app-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.menu-icon, .back-icon {
+    height: 30px; /* Adjust size as needed */
     cursor: pointer;
 }
 
-.menu-icon {
-    height: 30px; /* Adjust size as needed */
-    cursor: pointer;
+.back-icon {
+    height: 24px; /* Reduced size */
+    margin-right: 10px; /* Adjust spacing as needed */
 }
 
 /* Main content styling */
@@ -110,5 +135,13 @@ input[type="text"] {
     .btn-submit, .btn-next {
         padding: 10px 15px;
         font-size: 16px; /* Smaller buttons on mobile */
+    }
+
+    .app-title {
+        font-size: 20px; /* Smaller title on mobile */
+    }
+
+    .menu-icon, .back-icon {
+        height: 25px; /* Smaller icons on mobile */
     }
 }

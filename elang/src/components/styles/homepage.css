@@ -29,7 +29,7 @@
 }
 
 .header-logo {
- max-width: 60px;
+  max-width: 60px;
   height: auto;
   margin-bottom: 10px;
   align-self: flex-start;
@@ -127,12 +127,14 @@
   top: 50px;
   transform: scaleY(0);
   transform-origin: top;
-  transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
   z-index: 1000;
+  opacity: 0;
 }
 
 .vertical-nav.visible {
   transform: scaleY(1);
+  opacity: 1;
 }
 
 .vertical-nav ul {

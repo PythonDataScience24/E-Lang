@@ -9,10 +9,10 @@ function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
-        e.preventDefault(); // Prevent page reload
+        e.preventDefault();
 
         if (username && password) {
             try {
@@ -27,7 +27,10 @@ function LoginPage() {
                 const result = await response.json();
 
                 if (response.ok) {
-                    navigate('/home'); // Redirect to HomePage on successful login
+                    console.log('Access Token:', result.access_token); // Log the token
+                    localStorage.setItem('access_token', result.access_token);
+                    localStorage.setItem('refresh_token', result.refresh_token);
+                    navigate('/home');
                 } else {
                     setError(result.message || 'Login failed. Please try again.');
                 }
@@ -77,6 +80,7 @@ function LoginPage() {
                             <a href="/forgot-password">Forget Password?</a>
                             {error && <p className="error">{error}</p>}
                         </form>
+                        <button onClick={() => navigate('/register')} className="register-button">Register</button>
                     </div>
                 </div>
             </main>
