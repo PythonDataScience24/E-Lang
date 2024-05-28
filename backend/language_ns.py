@@ -24,6 +24,15 @@ word_freq_de = pd.Series(deutsch_df.WFfreqcount.values, index=deutsch_df.Word).t
 
 # Rating word based on difficulty
 def rate_difficulty(word):
+    """
+    Rate the difficulty of a word based on its frequency count.
+
+    Parameters:
+    word (str): The word to rate.
+
+    Returns:
+    int: The difficulty rating.
+    """
     if word in word_freq_de:
         freq = word_freq_de.get(word.lower(), 0)
         if freq > 10000:
@@ -41,6 +50,15 @@ def rate_difficulty(word):
 
 # Categorize user word
 def categorize_word(word):
+    """
+    Categorize a word based on its part of speech.
+
+    Parameters:
+    word (str): The word to categorize.
+
+    Returns:
+    str: The category of the word.
+    """
     doc = nlp(word)
     if doc:
         return doc[0].pos_
@@ -49,6 +67,17 @@ def categorize_word(word):
 
 # Validate User word
 def validate_translation(word, translation):
+    """
+    Validate a translation.
+
+    Parameters:
+    word (str): The original word.
+    translation (str): The translated word.
+
+    Returns:
+    bool: True if translation is valid, False otherwise.
+    """
+
     # Should check word vs models translation
     return True  # Assumes all translations are true
 
@@ -83,14 +112,32 @@ vocabulary_model = vocabulary_ns.model(
 
 @language_ns.route('/hello')
 class HelloWorld(Resource):
+    """
+    Resource to greet the world.
+    """
     def get(self):
+        """
+        Get method to greet the world.
+
+        Returns:
+        dict: A JSON response with a greeting message.
+        """
         return jsonify({'message': 'Hello World!'})
 
 @language_ns.route('/languagemodel')
 class LanguagesResource(Resource):
+    """
+    Resource for managing language models.
+    """
+
     @language_ns.marshal_list_with(language_model)
     def get(self):
-        """Get All words and information from database"""
+        """
+        Get All words and information from database
+
+        Returns:
+        list: List of words.
+        """
         all_words = LanguageModel.query.all()
         return all_words
 
@@ -155,7 +202,10 @@ class VocabularyResource(Resource):
         return vocab, 200
 
     def delete(self, vocab_id):
-        """Delete a vocabulary entry"""
+        """Delete a vocabulary 
+        Returns:
+        str: Empty string.
+        """
         vocab = Vocabulary.query.get_or_404(vocab_id)
         db.session.delete(vocab)
         db.session.commit()

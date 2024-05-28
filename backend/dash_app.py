@@ -11,8 +11,18 @@ from models import Progress  # Import your Progress model
 
 
 def create_dash_app(flask_app):
+    """
+    Create a Dash application.
+
+    Parameters:
+    flask_app (Flask): The Flask application instance.
+
+    Returns:
+    dash.Dash: The Dash application instance.
+    """
     app = dash.Dash(server=flask_app, name="DashApp", url_base_pathname='/dash/')
 
+    # Define the layout of the Dash app
     app.layout = html.Div([
         html.H2("User Progress Summary"),
         dcc.Graph(id='average-score-graph'),
@@ -30,11 +40,22 @@ def create_dash_app(flask_app):
         [Input('interval-component', 'n_intervals')]
     )
     def update_graphs(n):
+        """
+        Update the graphs with the latest progress data.
+
+        Parameters:
+        n (int): The number of intervals that have passed.
+
+        Returns:
+        tuple: A tuple containing three figures for the graphs.
+        """
+
         # Fetch progress data from the database
         progress_entries = Progress.query.all()
         if not progress_entries:
             return {}, {}, {}
 
+        # Prepare the data for the DataFrame
         data = [{
             'word': entry.vocabulary.word,
             'date_practiced': entry.date_practiced.strftime('%Y-%m-%d %H:%M:%S'),
