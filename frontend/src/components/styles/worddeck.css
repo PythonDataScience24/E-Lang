@@ -1,0 +1,86 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 80%; /* Adjusted to use a percentage of the view width for better responsiveness */
+  max-width: 1200px; /* Increased maximum width */
+  margin: 50px auto; /* Increased top and bottom margin for better centering */
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #FFFFFF; /* White background */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1); /* Enhanced shadow for better depth */
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  padding: 10px 0; /* Added padding for better spacing */
+}
+
+.logo {
+  position: absolute;
+  left: 20px; /* Adjusted for better alignment */
+  top: 50%;
+  transform: translateY(-50%);
+  height: 60px; /* Increased size of logo */
+}
+
+.title {
+  font-size: 28px; /* Slightly larger title */
+  color: #333;
+}
+
+.form-table-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.input-form {
+  flex: 1; /* Ensure it takes full space allocated */
+  padding: 20px; /* Increased padding for better layout */
+  max-width: 45%; /* Increased width */
+}
+
+.word-table {
+  flex: 1; /* Ensure it takes full space allocated */
+  padding: 20px; /* Increased padding for better layout */
+  max-width: 55%; /* Increased width */
+}
+
+input, button {
+  display: block;
+  width: 100%;
+  padding: 12px; /* Increased padding for better user interaction */
+  margin-top: 10px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold; /* Bold text for button */
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd; /* Added border for table */
+}
+
+th, td {
+  padding: 15px; /* Increased padding for better readability */
+  text-align: left;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
