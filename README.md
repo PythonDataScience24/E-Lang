@@ -12,7 +12,7 @@ Thank you for your interest in our project! We're developing a Language Learning
 We are Computer Science and Biomedical Engineering Students at the University of Berne, and this project is a critical component of our Data Science course.
 
 ## Project Repository
-The GitHub repository for this project can be found here: [GitHub Link](https://github.com/PythonDataScience24/E-Lang.git))
+The GitHub repository for this project can be found here: [GitHub Link](https://github.com/PythonDataScience24/E-Lang.git)
 
 ## How to Contribute & Get Involved
 Interested in contributing? Here's how you can get involved:
