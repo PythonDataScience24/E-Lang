@@ -33,7 +33,7 @@ function RegisterPage() {
                 const result = await response.json();
 
                 if (response.ok) {
-                    navigate('/');
+                    navigate('/login');
                 } else {
                     setError(result.message || 'Registration failed. Please try again.');
                 }

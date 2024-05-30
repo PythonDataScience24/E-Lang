@@ -8,13 +8,15 @@ import PracticePage from './components/PracticePage';
 import SentenceCorrection from './components/SentenceCorrection';
 import ProgressReports from './components/ProgressReports';
 import RegisterPage from "./components/RegisterPage";
+import DisplayPage from "./components/DisplayPage";
 import './components/styles/styles.css';
 
 function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<LoginPage />} />
+                <Route path="/" element={<DisplayPage/>}/>
+                <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/flashcards" element={<FlashCards />} />

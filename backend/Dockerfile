@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Copy the requirements file into the container
 COPY requirements.txt /app/
+COPY post_install.py /app/
 
 # Install any needed packages specified in requirements.txt
 RUN python3 -m pip install --upgrade pip

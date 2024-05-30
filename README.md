@@ -38,7 +38,7 @@ docker-compose --version
 First, clone the repository to your local machine:
 
 ```bash
- git clone https://github.com/Newton001/Language-Learning-Assistant.git
+ git clone https://github.com/PythonDataScience24/E-Lang.git
 cd Language-Learning-Assistant
 ```
 ## Setting Up and Running the Application
