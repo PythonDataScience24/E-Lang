@@ -7,10 +7,10 @@ from flask_jwt_extended import (JWTManager, create_access_token,
                                 get_jwt_identity, jwt_required)
 from flask import request, jsonify, Flask, make_response
 
-# Namespace as blueprint
-
+# Namespace as blueprint for Authentication
 auth_ns = Namespace('auth_ns', description='A namespace for Authentication')
 
+# Models for request validation
 signup_model = auth_ns.model(
     'SignUp',
     {
@@ -30,17 +30,25 @@ login_model = auth_ns.model(
 
 @auth_ns.route('/signup')
 class Signup(Resource):
+    """
+    Resource for user signup.
+    """
     @auth_ns.marshal_with(signup_model)
     @auth_ns.expect(signup_model)
     def post(self):
+        """
+        Handle POST request for user signup.
+        """
         data = request.get_json()
 
         username = data.get("username").lower()
 
+        # Check if user already exists
         db_user = User.query.filter(User.username == username).first()
         if db_user:
             return {'message': 'User already Exists'}, 409
 
+        # Create new user
         new_user = User(
             username=data.get('username'),
             password=generate_password_hash(data.get('password'))
@@ -54,9 +62,14 @@ class Signup(Resource):
 
 @auth_ns.route('/login')
 class Login(Resource):
-
+    """
+    Resource for user login.
+    """
     @auth_ns.expect(login_model)
     def post(self):
+        """
+        Handle POST request for user login.
+        """
         data = request.get_json()
         username = data.get('username')
         password = data.get('password')
@@ -76,8 +89,14 @@ class Login(Resource):
 
 @auth_ns.route('/refresh')
 class Refresh(Resource):
+    """
+    Resource to refresh JWT tokens.
+    """
     @jwt_required(refresh=True)
     def post(self):
+        """
+        Handle POST request to refresh access token.
+        """
         current_user = get_jwt_identity()
         new_access_token = create_access_token(identity=current_user)
 

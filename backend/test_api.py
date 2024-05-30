@@ -4,7 +4,10 @@ from exts import db
 from models import User, LanguageModel, Vocabulary, Quiz, QuizQuestion, UserResponse, Progress
 
 class BaseTestCase(unittest.TestCase):
+    """Base test case with setup and teardown methods."""
+    
     def setUp(self):
+        """Set up test environment."""
         self.app = create_app()
         self.app.config.from_object('config.TestConfig')
         self.client = self.app.test_client()
@@ -12,12 +15,16 @@ class BaseTestCase(unittest.TestCase):
             db.create_all()
 
     def tearDown(self):
+        """Tear down test environment."""
+
         with self.app.app_context():
             db.session.remove()
             db.drop_all()
 
 
 class AuthTestCase(BaseTestCase):
+    """Test cases for user authentication."""
+
     def test_signup(self):
         response = self.client.post('/auth_ns/signup', json={
             "username": "testuser",

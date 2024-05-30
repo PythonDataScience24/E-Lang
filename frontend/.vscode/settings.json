@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/35740f60-5592-460b-aae2-9b6bc2f65f3e/resourceGroups/LLA-Python/providers/Microsoft.Web/sites/frontendelang",
+    "appService.deploySubpath": "."
+}

@@ -67,13 +67,13 @@ def validate_translation(word, translation):
     # Should check word vs models translation
     return True  # Assumes all translations are true
 
-
+# Function to remove punctuation from a word
 def remove_punctuation(word):
     for punc_char in string.punctuation:
         word = word.replace(punc_char, '')
     return word
 
-
+#create a sentence with gap
 def create_gap_sentence(translation):
     words = translation.split()
     gap_index = random.randint(0, len(words) - 1)
@@ -81,7 +81,7 @@ def create_gap_sentence(translation):
     words[gap_index] = '_____'
     return ' '.join(words), correct_word
 
-
+#generate sentence using taoeba API
 def generate_sentences():
     url = copy.copy(request_url)
     url += "?from=" + target_lang

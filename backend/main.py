@@ -13,19 +13,32 @@ from dash_app import create_dash_app
 
 
 def create_app():
+    """
+    Create the Flask application.
+
+    Returns:
+    Flask: The Flask application instance.
+    """
     config = DevConfig
     app = Flask(__name__)
     app.config.from_object(config)
 
+    # Enable Cross-Origin Resource Sharing (CORS)
     CORS(app)
 
+    # Initialize the database
     db.init_app(app)
 
+    # Initialize database migration
     Migrate(app, db)
+
+    # Initialize JWT for authentication
     JWTManager(app)
 
+    # Initialize Flask-RESTx API
     api = Api(app, title='Language Learning Assistant API', version='1.3', description='API"s For the Backend of Language Learning Assistant',doc='/docs')
 
+    # Add namespaces to the API
     api.add_namespace(language_ns)
     api.add_namespace(auth_ns)
     api.add_namespace(translations_ns)
@@ -38,6 +51,12 @@ def create_app():
 
     @app.shell_context_processor
     def make_shell_context():
+        """
+        Add objects to the Flask shell context.
+        
+        Returns:
+        dict: Dictionary containing objects to be added to the shell context.
+        """
         return {
             'db': db,
             'LanguageModel': LanguageModel,

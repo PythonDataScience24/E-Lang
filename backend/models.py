@@ -1,6 +1,16 @@
 from exts import db
 
 class LanguageModel(db.Model):
+    """
+    Model for language data.
+
+    Attributes:
+        id (int): The primary key.
+        word (str): The word.
+        translation (str): The translation of the word.
+        sentence (str): Example sentence using the word.
+        difficulty (int): Difficulty level of the word.
+    """
     id = db.Column(db.Integer, primary_key=True)
     word = db.Column(db.String(500), nullable=False)
     translation = db.Column(db.String(500), nullable=False)
@@ -27,6 +37,17 @@ class LanguageModel(db.Model):
 
 
 class User(db.Model):
+    """
+    Model for user data.
+
+    Attributes:
+        id (int): The primary key.
+        username (str): The username.
+        password (str): The password.
+        vocabularies (Relationship): Vocabulary associated with the user.
+        quizzes (Relationship): Quizzes associated with the user.
+        progress (Relationship): Progress associated with the user.
+    """
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(25), unique=True, nullable=False)
@@ -44,6 +65,15 @@ class User(db.Model):
 
 
 class SentencePair(db.Model):
+    """
+    Model for sentence pairs.
+
+    Attributes:
+        id (int): The primary key.
+        english_sentence (str): The English sentence.
+        german_sentence (str): The German translation.
+        correct_word (str): The correct translation of the word.
+    """
     __tablename__ = 'sentence_pairs'
     id = db.Column(db.Integer, primary_key=True)
     english_sentence = db.Column(db.String(255), nullable=False)
@@ -69,6 +99,19 @@ class SentencePair(db.Model):
 
 
 class Vocabulary(db.Model):
+    """
+    Model for vocabulary.
+
+    Attributes:
+        vocab_id (int): The primary key.
+        user_id (int): The user's ID.
+        word (str): The word.
+        translation (str): The translation of the word.
+        pronunciation (str): The pronunciation of the word.
+        example_usage (str): Example usage of the word.
+        category (str): The category of the word.
+        difficulty (int): Difficulty level of the word.
+    """
     __tablename__ = 'vocabulary'
     vocab_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
@@ -83,6 +126,14 @@ class Vocabulary(db.Model):
 
 
 class Quiz(db.Model):
+    """
+    Model for quiz.
+
+    Attributes:
+        quiz_id (int): The primary key.
+        user_id (int): The user's ID.
+        date_created (datetime): The date when the quiz was created.
+    """
     __tablename__ = 'quizzes'
     quiz_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
@@ -91,6 +142,16 @@ class Quiz(db.Model):
 
 
 class QuizQuestion(db.Model):
+    """
+    Model for quiz question.
+
+    Attributes:
+        question_id (int): The primary key.
+        quiz_id (int): The quiz ID.
+        vocab_id (int): The vocabulary ID.
+        question_type (str): The type of question.
+        question (str): The question.
+    """
     __tablename__ = 'quiz_questions'
     question_id = db.Column(db.Integer, primary_key=True)
     quiz_id = db.Column(db.Integer, db.ForeignKey('quizzes.quiz_id'), nullable=False)
@@ -101,6 +162,16 @@ class QuizQuestion(db.Model):
 
 
 class UserResponse(db.Model):
+    """
+    Model for user response.
+
+    Attributes:
+        response_id (int): The primary key.
+        question_id (int): The question ID.
+        user_id (int): The user ID.
+        user_answer (str): The user's answer.
+        is_correct (bool): Indicates if the answer is correct.
+    """
     __tablename__ = 'user_responses'
     response_id = db.Column(db.Integer, primary_key=True)
     question_id = db.Column(db.Integer, db.ForeignKey('quiz_questions.question_id'), nullable=False)
@@ -110,6 +181,16 @@ class UserResponse(db.Model):
 
 
 class Progress(db.Model):
+    """
+    Model for progress.
+
+    Attributes:
+        progress_id (int): The primary key.
+        user_id (int): The user's ID.
+        vocab_id (int): The vocabulary ID.
+        date_practiced (datetime): The date when the word was practiced.
+        score (int): The score obtained for practicing the word.
+    """
     __tablename__ = 'progress'
     progress_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)

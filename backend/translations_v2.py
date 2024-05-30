@@ -11,12 +11,13 @@ source_lang: str = 'eng'
 request_url: str = "https://tatoeba.org/eng/api_v0/search"
 
 
+# Remove punctuation characters
 def remove_punctuation(word: str) -> str:
     for punc_char in string.punctuation:
         word = word.replace(punc_char, '')
     return word
 
-
+    # Create a sentence with one word replaced by gap
 def create_gap_sentence(translation: str):
     words = translation.split()
     gap_index = random.randint(0, len(words) - 1)
@@ -36,10 +37,13 @@ def generate_sentences():
     url += "&unapproved=no"  # site says those are "likely to be incorrect"
     url += "&word_count_max=15"
     url += "&word_count_min=3"
+    # Send GET request to Tatoeba API
     req = requests.get(url)
     req_parsed = req.json()
+    # Extract the first sentence of results
     first_sentence = req_parsed['results'][0]
     target_text = first_sentence['text']
+    # Extract translations of target sentence
     translation_categories = first_sentence['translations']
     # print(first_sentence)
     for category in translation_categories:
@@ -52,15 +56,19 @@ def generate_sentences():
 
 def main():
     while True:
+        # Generate a German sentence and its English translation
         german_sentence, english_sentence = generate_sentences()
         print(f"Generated English sentence: {english_sentence}")
 
+        # Create a gap sentence from the German sentence
         gap_sentence, correct_word = create_gap_sentence(german_sentence)
 
+        #let user solve the quesion...
         print("Complete the sentence by filling in the gap:")
         print(gap_sentence)
         user_input = input("Your word: ")
 
+        #remove punctuation
         if remove_punctuation(user_input.lower()) == remove_punctuation(
                 correct_word.lower()):
             print("Correct!")
