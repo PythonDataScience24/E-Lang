@@ -12,11 +12,11 @@ Thank you for your interest in our project! We're developing a Language Learning
 We are Computer Science and Biomedical Engineering Students at the University of Berne, and this project is a critical component of our Data Science course.
 
 ## Project Repository
-The GitHub repository for this project can be found here: [GitHub Link](https://github.com/Newton001/Language-Learning-Assistant.git)
+The GitHub repository for this project can be found here: [GitHub Link](https://github.com/PythonDataScience24/E-Lang.git))
 
 ## How to Contribute & Get Involved
 Interested in contributing? Here's how you can get involved:
-- [Project Protocol](https://github.com/Newton001/Language-Learning-Assistant.git) - Follow our protocol to understand our workflow and standards.
+- [Project Protocol](https://github.com/PythonDataScience24/E-Lang.git) - Follow our protocol to understand our workflow and standards.
 - [Project Roadmap](https://github.com/PythonDataScience24/Language-Learning-Assistant/blob/main/Roadmap.md) - Check out our roadmap to see what we're working on and what's coming next.
 
 Your contributions and feedback are invaluable to the success of this project. We look forward to working together to make language learning a more engaging and streamlined experience.
